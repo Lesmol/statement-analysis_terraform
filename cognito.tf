@@ -55,9 +55,6 @@ resource "aws_cognito_user_pool_client" "statement_analysis_app_client" {
   }
 
   prevent_user_existence_errors = "ENABLED"
-
-  # Allow insecure transport for dev (remove in production)
-  allowed_oauth_flows_user_pool_client = true
 }
 
 resource "aws_cognito_user_pool_domain" "statement_analysis_domain" {
