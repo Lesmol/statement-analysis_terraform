@@ -65,5 +65,5 @@ resource "aws_cognito_user_pool_domain" "statement_analysis_domain" {
 resource "aws_cognito_user_group" "statement_analysis_admins" {
   name        = "statement_analysis_admins"
   user_pool_id = aws_cognito_user_pool.statement_analysis_user_pool.id
-  description = "Administrators with access to /api/admin/** endpoints"
+  description = "Administrators with access to /api/v1/admin/** endpoints"
 }
