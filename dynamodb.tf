@@ -56,6 +56,12 @@ resource "aws_dynamodb_table" "statement_analysis_accounts" {
     type = "S"
   }
 
+  global_secondary_index {
+    name = "bankId-index"
+    projection_type = "ALL"
+    hash_key = "bankId"
+  }
+
   tags = {
     Project = local.project_tag
   }

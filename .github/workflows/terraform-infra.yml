@@ -13,9 +13,6 @@ on:
 
 env:
   AWS_REGION: af-south-1
-  TF_VAR_polygon_api_key: ${{ secrets.POLYGON_API_KEY }}
-  TF_VAR_email_api_key: ${{ secrets.EMAIL_API_KEY }}
-  TF_VAR_email_api_endpoint: ${{ vars.EMAIL_API_ENDPOINT }}
 
 jobs:
   terraform-plan:
