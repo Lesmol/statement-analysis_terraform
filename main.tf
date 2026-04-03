@@ -7,6 +7,13 @@ terraform {
       version = "~> 5.0"
     }
   }
+
+  backend "s3" {
+    bucket         = "statement-analysis-terraform-state"
+    key            = "statements/terraform.tfstate"
+    region         = "af-south-1"
+    encrypt        = true
+  }
 }
 
 provider "aws" {
