@@ -80,11 +80,7 @@ resource "aws_dynamodb_table" "statement_analysis_statement_uploads" {
   global_secondary_index {
     name            = "accountId-index"
     projection_type = "ALL"
-
-    key_schema {
-      attribute_name = "accountId"
-      key_type       = "HASH"
-    }
+    hash_key       = "accountId"
   }
 
   tags = {
