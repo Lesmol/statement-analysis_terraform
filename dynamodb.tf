@@ -13,16 +13,6 @@ resource "aws_dynamodb_table" "statement_analysis_banks" {
     type = "S"
   }
 
-  attribute {
-    name = "name"
-    type = "S"
-  }
-
-  attribute {
-    name = "createdAt"
-    type = "S"
-  }
-
   tags = {
     Project = local.project_tag
   }
@@ -36,21 +26,6 @@ resource "aws_dynamodb_table" "statement_analysis_users" {
 
   attribute {
     name = "userId"
-    type = "S"
-  }
-
-  attribute {
-    name = "email"
-    type = "S"
-  }
-
-  attribute {
-    name = "name"
-    type = "S"
-  }
-
-  attribute {
-    name = "createdAt"
     type = "S"
   }
 
@@ -81,21 +56,6 @@ resource "aws_dynamodb_table" "statement_analysis_accounts" {
     type = "S"
   }
 
-  attribute {
-    name = "type"
-    type = "S"
-  }
-
-  attribute {
-    name = "nickname"
-    type = "S"
-  }
-
-  attribute {
-    name = "createdAt"
-    type = "S"
-  }
-
   global_secondary_index {
     name = "bankId-index"
     projection_type = "ALL"
@@ -120,41 +80,6 @@ resource "aws_dynamodb_table" "statement_analysis_statement_uploads" {
 
   attribute {
     name = "accountId"
-    type = "S"
-  }
-
-  attribute {
-    name = "bankId"
-    type = "S"
-  }
-
-  attribute {
-    name = "fileName"
-    type = "S"
-  }
-
-  attribute {
-    name = "uploadedAt"
-    type = "S"
-  }
-
-  attribute {
-    name = "periodFrom"
-    type = "S"
-  }
-
-  attribute {
-    name = "periodTo"
-    type = "S"
-  }
-
-  attribute {
-    name = "s3Key"
-    type = "S"
-  }
-
-  attribute {
-    name = "status"
     type = "S"
   }
 
