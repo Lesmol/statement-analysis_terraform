@@ -29,6 +29,20 @@ resource "aws_cognito_user_pool" "statement_analysis_user_pool" {
     }
   }
 
+  schema {
+    name              = "email"
+    attribute_data_type = "String"
+    required          = true
+    mutable           = true
+  }
+
+  schema {
+    name              = "name"
+    attribute_data_type = "String"
+    required          = false
+    mutable           = true
+  }
+
   tags = {
     Project = "statement-analysis"
   }
@@ -44,6 +58,8 @@ resource "aws_cognito_user_pool_client" "statement_analysis_app_client" {
     "ALLOW_USER_SRP_AUTH",
     "ALLOW_REFRESH_TOKEN_AUTH"
   ]
+
+  read_attributes = ["email", "name"]
 
   access_token_validity  = 1
   id_token_validity      = 1
