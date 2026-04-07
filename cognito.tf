@@ -32,7 +32,7 @@ resource "aws_cognito_user_pool" "statement_analysis_user_pool" {
   schema {
     name              = "email"
     attribute_data_type = "String"
-    required          = true
+    required          = false
     mutable           = true
   }
 
