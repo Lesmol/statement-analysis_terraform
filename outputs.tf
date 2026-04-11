@@ -29,30 +29,6 @@ output "s3_bucket_arn" {
   sensitive   = true
 }
 
-output "cognito_user_pool_id" {
-  description = "ID of the Cognito user pool"
-  value       = aws_cognito_user_pool.statement_analysis_user_pool.id
-  sensitive   = true
-}
-
-output "cognito_user_pool_arn" {
-  description = "ARN of the Cognito user pool"
-  value       = aws_cognito_user_pool.statement_analysis_user_pool.arn
-  sensitive   = true
-}
-
-output "cognito_app_client_id" {
-  description = "ID of the Cognito app client"
-  value       = aws_cognito_user_pool_client.statement_analysis_app_client.id
-  sensitive   = true
-}
-
-output "cognito_jwks_uri" {
-  description = "JWKS URI for Cognito user pool (used by API Gateway JWT Authorizer)"
-  value       = "https://cognito-idp.${var.aws_region}.amazonaws.com/${aws_cognito_user_pool.statement_analysis_user_pool.id}/.well-known/jwks.json"
-  sensitive   = true
-}
-
 # IAM
 output "iam_app_role_arn" {
   description = "ARN of the IAM role for the Spring Boot application"
