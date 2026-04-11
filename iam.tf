@@ -1,7 +1,7 @@
 # IAM Policy for Spring Boot application
 resource "aws_iam_policy" "statement_analysis_app_policy" {
   name        = "statement_analysis_app_policy"
-  description = "Policy for Spring Boot application to access DynamoDB, S3, and Cognito"
+  description = "Policy for Spring Boot application to access DynamoDB and S3"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -37,15 +37,6 @@ resource "aws_iam_policy" "statement_analysis_app_policy" {
           "s3:DeleteObject"
         ]
         Resource = "${aws_s3_bucket.statement_analysis_statements.arn}/*"
-      },
-      {
-        Sid    = "CognitoAccess"
-        Effect = "Allow"
-        Action = [
-          "cognito-idp:AdminGetUser",
-          "cognito-idp:ListUsers"
-        ]
-        Resource = aws_cognito_user_pool.statement_analysis_user_pool.arn
       }
     ]
   })
