@@ -2,6 +2,17 @@ locals {
   project_tag = "statement-analysis"
 }
 
+resource "aws_dynamodb_table" "terraform_state_lock" {
+  name         = "terraform-state-lock"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "LockID"
+
+  attribute {
+    name = "LockID"
+    type = "S"
+  }
+}
+
 # Table 1: Banks
 resource "aws_dynamodb_table" "statement_analysis_banks" {
   name           = "statement_analysis_banks"
@@ -13,9 +24,6 @@ resource "aws_dynamodb_table" "statement_analysis_banks" {
     type = "S"
   }
 
-  tags = {
-    Project = local.project_tag
-  }
 }
 
 # Table 2: Users (registered user profiles)
@@ -29,9 +37,6 @@ resource "aws_dynamodb_table" "statement_analysis_users" {
     type = "S"
   }
 
-  tags = {
-    Project = local.project_tag
-  }
 }
 
 # Table 3: Accounts (bank accounts belonging to a user)
@@ -62,9 +67,6 @@ resource "aws_dynamodb_table" "statement_analysis_accounts" {
     hash_key = "bankId"
   }
 
-  tags = {
-    Project = local.project_tag
-  }
 }
 
 # Table 4: Statement uploads (metadata and S3 pointer)
@@ -89,7 +91,4 @@ resource "aws_dynamodb_table" "statement_analysis_statement_uploads" {
     hash_key       = "accountId"
   }
 
-  tags = {
-    Project = local.project_tag
-  }
 }
