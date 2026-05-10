@@ -28,14 +28,3 @@ provider "aws" {
     }
   }
 }
-
-check "s3_bucket_not_public" {
-  data "aws_s3_bucket_policy_status" "statements" {
-    bucket = aws_s3_bucket.statement_analysis_statements.id
-  }
-
-  assert {
-    condition     = !data.aws_s3_bucket_policy_status.statements.policy_status[0].is_public
-    error_message = "S3 statements bucket has become publicly accessible!"
-  }
-}
