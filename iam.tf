@@ -1,4 +1,3 @@
-# IAM Policy for Spring Boot application
 resource "aws_iam_policy" "statement_analysis_app_policy" {
   name        = "statement_analysis_app_policy"
   description = "Policy for Spring Boot application to access DynamoDB and S3"
@@ -37,16 +36,26 @@ resource "aws_iam_policy" "statement_analysis_app_policy" {
           "s3:DeleteObject"
         ]
         Resource = "${aws_s3_bucket.statement_analysis_statements.arn}/*"
+      },
+      {
+        Sid    = "ECRAuthAccess"
+        Effect = "Allow"
+        Action = "ecr:GetAuthorizationToken"
+        Resource = "*"
+      },
+      {
+        Sid    = "ECRImageAccess"
+        Effect = "Allow"
+        Action = [
+          "ecr:BatchGetImage",
+          "ecr:GetDownloadUrlForLayer"
+        ]
+        Resource = aws_ecr_repository.statement_analysis.arn
       }
     ]
   })
-
-  tags = {
-    Project = "statement-analysis"
-  }
 }
 
-# IAM Role for Spring Boot application
 resource "aws_iam_role" "statement_analysis_app_role" {
   name               = "statement_analysis_app_role"
   assume_role_policy = jsonencode({
@@ -62,23 +71,12 @@ resource "aws_iam_role" "statement_analysis_app_role" {
       {
         Effect = "Allow"
         Principal = {
-          Service = "ecs-tasks.amazonaws.com"
-        }
-        Action = "sts:AssumeRole"
-      },
-      {
-        Effect = "Allow"
-        Principal = {
           Service = "lambda.amazonaws.com"
         }
         Action = "sts:AssumeRole"
       }
     ]
   })
-
-  tags = {
-    Project = "statement-analysis"
-  }
 }
 
 resource "aws_iam_role" "statement_analysis_role" {
@@ -95,10 +93,6 @@ resource "aws_iam_role" "statement_analysis_role" {
       }
     ]
   })
-
-  tags = {
-    Project = "statement-analysis"
-  }
 }
 
 resource "aws_iam_role_policy_attachment" "statement_analysis_lambda_basic_execution" {
@@ -111,7 +105,6 @@ resource "aws_iam_role_policy_attachment" "statement_analysis_lambda_app_policy"
   policy_arn = aws_iam_policy.statement_analysis_app_policy.arn
 }
 
-# Attach policy to role
 resource "aws_iam_role_policy_attachment" "statement_analysis_app_role_attachment" {
   role       = aws_iam_role.statement_analysis_app_role.name
   policy_arn = aws_iam_policy.statement_analysis_app_policy.arn
