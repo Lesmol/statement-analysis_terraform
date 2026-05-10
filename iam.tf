@@ -81,6 +81,36 @@ resource "aws_iam_role" "statement_analysis_app_role" {
   }
 }
 
+resource "aws_iam_role" "statement_analysis_role" {
+  name = "statement_analysis_role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "lambda.amazonaws.com"
+        }
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+
+  tags = {
+    Project = "statement-analysis"
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "statement_analysis_lambda_basic_execution" {
+  role       = aws_iam_role.statement_analysis_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "statement_analysis_lambda_app_policy" {
+  role       = aws_iam_role.statement_analysis_role.name
+  policy_arn = aws_iam_policy.statement_analysis_app_policy.arn
+}
+
 # Attach policy to role
 resource "aws_iam_role_policy_attachment" "statement_analysis_app_role_attachment" {
   role       = aws_iam_role.statement_analysis_app_role.name
