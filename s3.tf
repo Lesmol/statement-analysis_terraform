@@ -1,3 +1,3 @@
-resource "aws_s3_bucket" "terraform_state" {
+resource "aws_s3_bucket" "statement_analysis_docs" {
   bucket = "statement-analysis-docs"
 }

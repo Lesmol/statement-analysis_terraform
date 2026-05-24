@@ -21,10 +21,10 @@ resource "aws_sqs_queue_redrive_allow_policy" "statement_analysis_textract_compl
   })
 }
 
-resource "aws_sqs_queue_subscription" "sns_to_sqs_subscription" {
+resource "aws_sns_topic_subscription" "sns_to_sqs_subscription" {
   topic_arn = aws_sns_topic.statement_analysis_textract_completion_topic.arn
-  queue_url = aws_sqs_queue.statement_analysis_textract_completion_queue.id
   protocol  = "sqs"
+  endpoint  = aws_sqs_queue.statement_analysis_textract_completion_queue.arn
 }
 
 resource "aws_sqs_queue_policy" "sns_to_sqs_policy" {
