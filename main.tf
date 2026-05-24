@@ -24,7 +24,7 @@ provider "aws" {
     tags = {
       Project     = "statement-analysis"
       ManagedBy   = "terraform"
-      Environment = var.environment
+      Environment = "prod"
     }
   }
 }
