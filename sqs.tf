@@ -25,6 +25,8 @@ resource "aws_sns_topic_subscription" "sns_to_sqs_subscription" {
   topic_arn = aws_sns_topic.statement_analysis_textract_completion_topic.arn
   protocol  = "sqs"
   endpoint  = aws_sqs_queue.statement_analysis_textract_completion_queue.arn
+
+  depends_on = [aws_sns_topic.statement_analysis_textract_completion_topic, aws_sqs_queue.statement_analysis_textract_completion_queue]
 }
 
 resource "aws_sqs_queue_policy" "sns_to_sqs_policy" {
