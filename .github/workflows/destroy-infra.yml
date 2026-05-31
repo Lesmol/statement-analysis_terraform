@@ -10,7 +10,6 @@ jobs:
   terraform-plan-destroy:
     name: Terraform Destroy Plan
     runs-on: ubuntu-latest
-    if: github.event.inputs.job_to_run == 'terrform-destroy-apply'
 
     steps:
       - name: Configure AWS credentials
