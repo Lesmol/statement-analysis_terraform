@@ -28,3 +28,8 @@ provider "aws" {
     }
   }
 }
+
+provider "aws" {
+  alias  = "textract-region"
+  region = "eu-west-1"
+}
