@@ -35,8 +35,8 @@ resource "aws_lambda_function" "statement_analysis_function" {
 
   environment {
     variables = {
-      AWS_S3_BUCKET_NAME = var.s3_bucket_name
-      AWS_REGION = var.aws_region
+      AWS_S3_BUCKET_NAME = aws_s3_bucket.statement_analysis_docs.bucket
+      AWS_REGION = provider.aws.textract-region.region
     }
   }
 }
