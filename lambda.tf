@@ -40,7 +40,7 @@ resource "aws_lambda_function" "statement_analysis_function" {
   environment {
     variables = {
       AWS_S3_BUCKET_NAME = aws_s3_bucket.statement_analysis_docs.bucket
-      AWS_REGION = local.aws_region
+      TEXTRACT_AWS_REGION = local.aws_region
     }
   }
 }
