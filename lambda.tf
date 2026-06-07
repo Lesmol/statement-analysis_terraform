@@ -1,3 +1,7 @@
+locals {
+  aws_region = "eu-west-1"
+}
+
 resource "aws_iam_role" "lambda_exec" {
   name = "statement_analysis_lambda_role"
 
@@ -36,7 +40,7 @@ resource "aws_lambda_function" "statement_analysis_function" {
   environment {
     variables = {
       AWS_S3_BUCKET_NAME = aws_s3_bucket.statement_analysis_docs.bucket
-      AWS_REGION = provider.aws.textract-region.region
+      AWS_REGION = local.aws_region
     }
   }
 }
