@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
 
 env:
+  TF_VAR_s3_bucket_name: ${{ secrets.S3_BUCKET_NAME }}
+  TF_VAR_aws_region: ${{ secrets.AWS_TEXTRACT_REGION }}
   AWS_REGION: af-south-1
 
 jobs:
