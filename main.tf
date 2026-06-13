@@ -6,6 +6,7 @@ module "storage" {
   source = "./modules/storage"
   providers = {
     aws = aws.textract-region
+    aws.textract-region = aws.textract-region
   }
 }
 
@@ -13,6 +14,7 @@ module "processing-pipes" {
   source = "./modules/processing-pipes"
   providers = {
     aws = aws.textract-region
+    aws.textract-region = aws.textract-region
   }
 }
 
