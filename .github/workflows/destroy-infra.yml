@@ -3,9 +3,6 @@ name: Destroy Terraform Infrastructure
 on:
   workflow_dispatch:
 
-env:
-  AWS_REGION: af-south-1
-
 jobs:
   terraform-plan-destroy:
     name: Terraform Destroy Plan
@@ -17,7 +14,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -46,7 +43,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Checkout repository
         uses: actions/checkout@v6
