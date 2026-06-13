@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "statement_analysis_repository" {
-  name                 = "statement-analysis-repository"
+  name                 = var.ecr_repository_name
   image_tag_mutability = "MUTABLE"
   force_delete         = true
 

@@ -30,16 +30,16 @@ resource "aws_iam_role_policy" "lambda_policy" {
 }
 
 resource "aws_lambda_function" "statement_analysis_function" {
-  function_name = "statement-analysis-function"
+  function_name = var.statement_analysis_function_name
   package_type = "Image"
-  image_uri    = "${aws_ecr_repository.statement_analysis_repository.repository_url}:latest"
+  image_uri    = "${var.ecr_repository_url}:latest"
   role          = aws_iam_role.lambda_exec.arn
   memory_size = 2048
   timeout       = 300
 
   environment {
     variables = {
-      AWS_S3_BUCKET_NAME = aws_s3_bucket.statement_analysis_docs.bucket
+      AWS_S3_BUCKET_NAME = var.s3_bucket_name
       TEXTRACT_AWS_REGION = local.aws_region
     }
   }
