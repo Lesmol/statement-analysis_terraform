@@ -39,11 +39,11 @@ resource "aws_apigatewayv2_integration" "statement_analysis_gw_integration" {
   integration_method = "POST"
 }
 
-resource "aws_apigatewayv2_route" "statement_analysis_gw_route" {
-  api_id = aws_apigatewayv2_api.statement_analysis_gw.id
+resource "aws_apigatewayv2_route" "statement_analysis_gw_route_proxy" {
+  api_id    = aws_apigatewayv2_api.statement_analysis_gw.id
 
-  route_key = "POST /statement-analysis"
-  target = "integrations/${aws_apigatewayv2_integration.statement_analysis_gw_integration.id}"
+  route_key = "ANY /{proxy+}"
+  target    = "integrations/${aws_apigatewayv2_integration.statement_analysis_gw_integration.id}"
 }
 
 resource "aws_lambda_permission" "api_gateway_invoke" {
