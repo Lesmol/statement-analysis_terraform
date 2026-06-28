@@ -31,7 +31,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
         Resource = "arn:aws:s3:::${var.s3_bucket_name}/*"
       },
       {
-        Action   = ["textract:AnalyzeDocument", "textract:StartDocumentAnalysis", "textract:GetDocumentAnalysis", "textract:DetectDocumentText"]
+        Action   = ["textract:StartDocumentAnalysis", "textract:StartDocumentTextDetection"]
         Effect   = "Allow"
         Resource = "*"
       }
