@@ -45,5 +45,5 @@ resource "aws_cognito_user_pool_client" "statement_analysis" {
   id_token_validity      = 1
   refresh_token_validity = 30
 
-  generate_secret = false
+  generate_secret = true
 }

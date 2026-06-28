@@ -53,6 +53,9 @@ resource "aws_lambda_function" "statement_analysis_function" {
       TEXTRACT_AWS_REGION          = local.aws_region
       AWS_LWA_READINESS_CHECK_PATH = "/actuator/health"
       AWS_LWA_PORT                 = "8080"
+      COGNITO_USER_POOL_ID         = var.cognito_user_pool_id
+      COGNITO_CLIENT_ID            = var.cognito_client_id
+      COGNITO_CLIENT_SECRET        = var.cognito_client_secret
     }
   }
 
