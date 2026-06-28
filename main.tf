@@ -35,4 +35,6 @@ module "api_gateway" {
   source                        = "./modules/api-gateway"
   lambda_integration_invoke_arn = module.compute.statement_analysis_function_invoke_arn
   lambda_function_name          = module.compute.statement_analysis_function_name
+  cognito_user_pool_id          = module.auth.user_pool_id
+  cognito_client_id             = module.auth.client_id
 }

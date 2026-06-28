@@ -1,3 +1,5 @@
+data "aws_region" "current" {}
+
 resource "aws_apigatewayv2_api" "statement_analysis_gw" {
   name          = var.api_gateway_name
   protocol_type = "HTTP"
@@ -43,11 +45,35 @@ resource "aws_apigatewayv2_integration" "statement_analysis_gw_integration" {
   }
 }
 
-resource "aws_apigatewayv2_route" "statement_analysis_gw_route_proxy" {
-  api_id = aws_apigatewayv2_api.statement_analysis_gw.id
+resource "aws_apigatewayv2_authorizer" "cognito" {
+  api_id           = aws_apigatewayv2_api.statement_analysis_gw.id
+  authorizer_type  = "JWT"
+  name             = "cognito-authorizer"
+  identity_sources = ["$request.header.Authorization"]
 
-  route_key = "ANY /{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.statement_analysis_gw_integration.id}"
+  jwt_configuration {
+    issuer   = "https://cognito-idp.${data.aws_region.current.name}.amazonaws.com/${var.cognito_user_pool_id}"
+    audience = [var.cognito_client_id]
+  }
+}
+
+resource "aws_apigatewayv2_route" "statement_analysis_gw_route_proxy" {
+  api_id             = aws_apigatewayv2_api.statement_analysis_gw.id
+  route_key          = "ANY /{proxy+}"
+  target             = "integrations/${aws_apigatewayv2_integration.statement_analysis_gw_integration.id}"
+  authorization_type = "JWT"
+  authorizer_id      = aws_apigatewayv2_authorizer.cognito.id
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_apigatewayv2_route" "statement_analysis_gw_route_auth" {
+  api_id             = aws_apigatewayv2_api.statement_analysis_gw.id
+  route_key          = "ANY /auth/{proxy+}"
+  target             = "integrations/${aws_apigatewayv2_integration.statement_analysis_gw_integration.id}"
+  authorization_type = "NONE"
 
   lifecycle {
     create_before_destroy = true
