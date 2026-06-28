@@ -10,7 +10,7 @@ resource "aws_cloudwatch_log_group" "statement_analysis_cloudwatch" {
 
 resource "aws_apigatewayv2_stage" "statement_analysis_gw_stage" {
   api_id      = aws_apigatewayv2_api.statement_analysis_gw.id
-  name        = "prod"
+  name        = "$default"
   auto_deploy = true
 
   access_log_settings {
