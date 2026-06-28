@@ -49,8 +49,10 @@ resource "aws_lambda_function" "statement_analysis_function" {
 
   environment {
     variables = {
-      AWS_S3_BUCKET_NAME = var.s3_bucket_name
-      TEXTRACT_AWS_REGION = local.aws_region
+      AWS_S3_BUCKET_NAME           = var.s3_bucket_name
+      TEXTRACT_AWS_REGION          = local.aws_region
+      AWS_LWA_READINESS_CHECK_PATH = "/actuator/health"
+      AWS_LWA_PORT                 = "8080"
     }
   }
 }
