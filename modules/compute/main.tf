@@ -8,8 +8,8 @@ resource "aws_iam_role" "lambda_exec" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
+      Action    = "sts:AssumeRole"
+      Effect    = "Allow"
       Principal = { Service = "lambda.amazonaws.com" }
     }]
   })
@@ -31,7 +31,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
         Resource = "arn:aws:s3:::${var.s3_bucket_name}/*"
       },
       {
-        Action   = ["textract:AnalyzeDocument", "textract:StartDocumentAnalysis", "textract:GetDocumentAnalysis"]
+        Action   = ["textract:AnalyzeDocument", "textract:StartDocumentAnalysis", "textract:GetDocumentAnalysis", "textract:DetectDocumentText"]
         Effect   = "Allow"
         Resource = "*"
       }
@@ -41,10 +41,10 @@ resource "aws_iam_role_policy" "lambda_policy" {
 
 resource "aws_lambda_function" "statement_analysis_function" {
   function_name = var.statement_analysis_function_name
-  package_type = "Image"
-  image_uri    = "${var.ecr_repository_url}:latest"
+  package_type  = "Image"
+  image_uri     = "${var.ecr_repository_url}:latest"
   role          = aws_iam_role.lambda_exec.arn
-  memory_size = 2048
+  memory_size   = 2048
   timeout       = 300
 
   environment {
@@ -54,5 +54,9 @@ resource "aws_lambda_function" "statement_analysis_function" {
       AWS_LWA_READINESS_CHECK_PATH = "/actuator/health"
       AWS_LWA_PORT                 = "8080"
     }
+  }
+
+  lifecycle {
+    ignore_changes = [image_uri]
   }
 }
