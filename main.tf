@@ -29,6 +29,8 @@ module "compute" {
   cognito_user_pool_id  = module.auth.user_pool_id
   cognito_client_id     = module.auth.client_id
   cognito_client_secret = module.auth.client_secret
+  sns_topic             = module.processing-pipes.topic_arn
+  sns_role              = module.processing-pipes.role_arn
 }
 
 module "api_gateway" {

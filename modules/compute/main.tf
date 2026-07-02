@@ -56,6 +56,8 @@ resource "aws_lambda_function" "statement_analysis_function" {
       COGNITO_USER_POOL_ID         = var.cognito_user_pool_id
       COGNITO_CLIENT_ID            = var.cognito_client_id
       COGNITO_CLIENT_SECRET        = var.cognito_client_secret
+      AWS_SNS_TOPIC                = var.sns_topic
+      AWS_SNS_ROLE                 = var.sns_role
     }
   }
 
