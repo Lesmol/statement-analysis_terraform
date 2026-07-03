@@ -24,6 +24,11 @@ resource "aws_cognito_user_pool" "statement_analysis" {
     required            = false
     mutable             = true
   }
+
+  lifecycle {
+    ignore_changes  = [schema]
+    prevent_destroy = true
+  }
 }
 
 resource "aws_cognito_user_pool_client" "statement_analysis" {
