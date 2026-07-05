@@ -3,7 +3,7 @@ data "aws_iam_policy_document" "amplify_assume_role" {
     actions = ["sts:AssumeRole"]
     principals {
       type        = "Service"
-      identifiers = ["amplify.amazonaws.com", "amplify.eu-west-1.amazonaws.com"]
+      identifiers = ["amplify.amazonaws.com"]
     }
   }
 }
