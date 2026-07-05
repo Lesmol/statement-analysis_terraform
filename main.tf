@@ -40,3 +40,10 @@ module "api_gateway" {
   cognito_user_pool_id          = module.auth.user_pool_id
   cognito_client_id             = module.auth.client_id
 }
+
+module "amplify" {
+  source              = "./modules/amplify"
+  repository_url      = var.amplify_repository_url
+  github_access_token = var.amplify_github_access_token
+  api_gateway_url     = module.api_gateway.gateway_url
+}

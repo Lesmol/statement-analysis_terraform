@@ -29,7 +29,10 @@ jobs:
         run: terraform validate
 
       - name: Terraform Destroy Plan
-        run: terraform plan -destroy
+        run: |
+          terraform plan -destroy \
+            -var="amplify_repository_url=${{ vars.AMPLIFY_REPOSITORY_URL }}" \
+            -var="amplify_github_access_token=${{ secrets.AMPLIFY_GITHUB_ACCESS_TOKEN }}"
 
   terraform-destroy-apply:
     name: Terraform Destroy Apply
@@ -55,4 +58,7 @@ jobs:
         run: terraform init
 
       - name: Terraform Destroy Apply
-        run: terraform destroy -auto-approve
+        run: |
+          terraform destroy -auto-approve \
+            -var="amplify_repository_url=${{ vars.AMPLIFY_REPOSITORY_URL }}" \
+            -var="amplify_github_access_token=${{ secrets.AMPLIFY_GITHUB_ACCESS_TOKEN }}"
