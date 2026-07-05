@@ -11,3 +11,7 @@ variable "cognito_client_secret" {
   type      = string
   sensitive = true
 }
+
+variable "cors_allowed_origins" {
+  type        = string
+}

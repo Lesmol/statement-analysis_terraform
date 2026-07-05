@@ -31,6 +31,7 @@ module "compute" {
   cognito_client_secret = module.auth.client_secret
   sns_topic             = module.processing-pipes.topic_arn
   sns_role              = module.processing-pipes.role_arn
+  cors_allowed_origins  = "https://${module.amplify.default_domain},http://localhost:5173"
 }
 
 module "api_gateway" {
