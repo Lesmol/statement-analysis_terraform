@@ -36,7 +36,7 @@ resource "aws_amplify_app" "statement_analysis" {
           commands:
             - npm run build
       artifacts:
-        baseDirectory: build
+        baseDirectory: dist
         files:
           - '**/*'
       cache:
