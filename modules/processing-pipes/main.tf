@@ -31,22 +31,25 @@ resource "aws_sns_topic_subscription" "sns_to_sqs_subscription" {
   depends_on = [aws_sns_topic.statement_analysis_textract_completion_topic, aws_sqs_queue.statement_analysis_textract_completion_queue]
 }
 
+data "aws_iam_policy_document" "sns_to_sqs" {
+  statement {
+    actions   = ["sqs:SendMessage"]
+    resources = [aws_sqs_queue.statement_analysis_textract_completion_queue.arn]
+    principals {
+      type        = "Service"
+      identifiers = ["sns.amazonaws.com"]
+    }
+    condition {
+      test     = "ArnEquals"
+      variable = "aws:SourceArn"
+      values   = [aws_sns_topic.statement_analysis_textract_completion_topic.arn]
+    }
+  }
+}
+
 resource "aws_sqs_queue_policy" "sns_to_sqs_policy" {
   queue_url = aws_sqs_queue.statement_analysis_textract_completion_queue.id
-  policy    = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect    = "Allow"
-        Principal = { Service = "sns.amazonaws.com" }
-        Action    = "sqs:SendMessage"
-        Resource  = aws_sqs_queue.statement_analysis_textract_completion_queue.arn
-        Condition = {
-          ArnEquals = { "aws:SourceArn" = aws_sns_topic.statement_analysis_textract_completion_topic.arn }
-        }
-      }
-    ]
-  })
+  policy    = data.aws_iam_policy_document.sns_to_sqs.json
 }
 
 
@@ -58,33 +61,30 @@ resource "aws_sns_topic" "statement_analysis_textract_completion_topic" {
 
 
 # IAM Roles
-resource "aws_iam_role" "textract_sns_role" {
-  name = "TextractSNSPublishRole"
+data "aws_iam_policy_document" "textract_assume_role" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["textract.amazonaws.com"]
+    }
+  }
+}
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = { Service = "textract.amazonaws.com" }
-      }
-    ]
-  })
+data "aws_iam_policy_document" "textract_sns_publish" {
+  statement {
+    actions   = ["sns:Publish"]
+    resources = [aws_sns_topic.statement_analysis_textract_completion_topic.arn]
+  }
+}
+
+resource "aws_iam_role" "textract_sns_role" {
+  name               = "TextractSNSPublishRole"
+  assume_role_policy = data.aws_iam_policy_document.textract_assume_role.json
 }
 
 resource "aws_iam_role_policy" "textract_sns_publish_policy" {
-  name = "TextractSNSPublishPolicy"
-  role = aws_iam_role.textract_sns_role.id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect   = "Allow"
-        Action   = "sns:Publish"
-        Resource = aws_sns_topic.statement_analysis_textract_completion_topic.arn
-      }
-    ]
-  })
+  name   = "TextractSNSPublishPolicy"
+  role   = aws_iam_role.textract_sns_role.id
+  policy = data.aws_iam_policy_document.textract_sns_publish.json
 }
