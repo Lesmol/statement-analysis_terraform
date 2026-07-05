@@ -13,44 +13,9 @@ resource "aws_iam_role" "amplify" {
   assume_role_policy = data.aws_iam_policy_document.amplify_assume_role.json
 }
 
-data "aws_iam_policy_document" "amplify_permissions" {
-  statement {
-    actions   = ["amplify:*"]
-    resources = ["*"]
-  }
-
-  statement {
-    actions = [
-      "logs:CreateLogGroup",
-      "logs:CreateLogStream",
-      "logs:PutLogEvents"
-    ]
-    resources = ["*"]
-  }
-
-  statement {
-    actions = [
-      "s3:GetObject",
-      "s3:PutObject",
-      "s3:DeleteObject",
-      "s3:ListBucket"
-    ]
-    resources = ["*"]
-  }
-
-  statement {
-    actions = [
-      "cloudfront:CreateInvalidation",
-      "cloudfront:GetInvalidation",
-      "cloudfront:ListInvalidations"
-    ]
-    resources = ["*"]
-  }
-}
-
-resource "aws_iam_role_policy" "amplify" {
-  role   = aws_iam_role.amplify.id
-  policy = data.aws_iam_policy_document.amplify_permissions.json
+resource "aws_iam_role_policy_attachment" "amplify" {
+  role       = aws_iam_role.amplify.name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess-Amplify"
 }
 
 resource "aws_amplify_app" "statement_analysis" {
