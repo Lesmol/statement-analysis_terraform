@@ -42,7 +42,10 @@ module "api_gateway" {
 }
 
 module "amplify" {
-  source              = "./modules/amplify"
+  source = "./modules/amplify"
+  providers = {
+    aws = aws.textract-region
+  }
   repository_url      = var.amplify_repository_url
   github_access_token = var.amplify_github_access_token
   api_gateway_url     = module.api_gateway.gateway_url
