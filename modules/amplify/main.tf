@@ -1,9 +1,10 @@
 data "aws_iam_policy_document" "amplify_assume_role" {
   statement {
+    effect = "Allow"
     actions = ["sts:AssumeRole"]
     principals {
       type        = "Service"
-      identifiers = ["amplify.amazonaws.com", "amplify.eu-west-1.amazonaws.com"]
+      identifiers = ["amplify.amazonaws.com"]
     }
   }
 }
@@ -13,16 +14,9 @@ resource "aws_iam_role" "amplify" {
   assume_role_policy = data.aws_iam_policy_document.amplify_assume_role.json
 }
 
-data "aws_iam_policy_document" "amplify_permissions" {
-  statement {
-    actions   = ["amplify:*"]
-    resources = ["*"]
-  }
-}
-
-resource "aws_iam_role_policy" "amplify" {
-  role   = aws_iam_role.amplify.id
-  policy = data.aws_iam_policy_document.amplify_permissions.json
+resource "aws_iam_role_policy_attachment" "amplify" {
+  role       = aws_iam_role.amplify.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonAmplifyFullAccess"
 }
 
 resource "aws_amplify_app" "statement_analysis" {
