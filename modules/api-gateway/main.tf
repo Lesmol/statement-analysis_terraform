@@ -3,6 +3,14 @@ data "aws_region" "current" {}
 resource "aws_apigatewayv2_api" "statement_analysis_gw" {
   name          = var.api_gateway_name
   protocol_type = "HTTP"
+
+  cors_configuration {
+    allow_origins     = split(",", var.cors_allowed_origins)
+    allow_methods     = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    allow_headers     = ["Content-Type", "Authorization"]
+    allow_credentials = true
+    max_age           = 300
+  }
 }
 
 resource "aws_cloudwatch_log_group" "statement_analysis_cloudwatch" {

@@ -40,6 +40,7 @@ module "api_gateway" {
   lambda_function_name          = module.compute.statement_analysis_function_name
   cognito_user_pool_id          = module.auth.user_pool_id
   cognito_client_id             = module.auth.client_id
+  cors_allowed_origins          = "https://${module.amplify.default_domain},http://localhost:5173"
 }
 
 module "amplify" {

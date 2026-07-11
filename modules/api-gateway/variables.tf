@@ -7,3 +7,7 @@ variable "api_gateway_name" {
   type        = string
   default     = "statement-analysis-api"
 }
+variable "cors_allowed_origins" {
+  description = "Comma-separated list of allowed CORS origins"
+  type        = string
+}
