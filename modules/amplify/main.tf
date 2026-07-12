@@ -62,4 +62,6 @@ resource "aws_amplify_branch" "main" {
   stage = "PRODUCTION"
 
   enable_auto_build = true
+
+  environment_variables = {}
 }
