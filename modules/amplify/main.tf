@@ -63,5 +63,5 @@ resource "aws_amplify_branch" "main" {
 
   enable_auto_build = true
 
-  environment_variables = {}
+  environment_variables = aws_amplify_app.statement_analysis.environment_variables
 }
