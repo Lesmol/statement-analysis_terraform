@@ -32,7 +32,8 @@ jobs:
         run: |
           terraform plan -destroy \
             -var="amplify_repository_url=${{ vars.AMPLIFY_REPOSITORY_URL }}" \
-            -var="amplify_github_access_token=${{ secrets.AMPLIFY_GITHUB_ACCESS_TOKEN }}"
+            -var="amplify_github_access_token=${{ secrets.AMPLIFY_GITHUB_ACCESS_TOKEN }}" \
+            -var="cors_allowed_origins=${{ vars.CORS_ALLOWED_ORIGINS }}"
 
   terraform-destroy-apply:
     name: Terraform Destroy Apply
@@ -61,4 +62,5 @@ jobs:
         run: |
           terraform destroy -auto-approve \
             -var="amplify_repository_url=${{ vars.AMPLIFY_REPOSITORY_URL }}" \
-            -var="amplify_github_access_token=${{ secrets.AMPLIFY_GITHUB_ACCESS_TOKEN }}"
+            -var="amplify_github_access_token=${{ secrets.AMPLIFY_GITHUB_ACCESS_TOKEN }}" \
+            -var="cors_allowed_origins=${{ vars.CORS_ALLOWED_ORIGINS }}"

@@ -11,10 +11,6 @@ resource "aws_apigatewayv2_api" "statement_analysis_gw" {
     allow_credentials = true
     max_age           = 300
   }
-
-  lifecycle {
-    ignore_changes = [cors_configuration]
-  }
 }
 
 resource "aws_cloudwatch_log_group" "statement_analysis_cloudwatch" {
@@ -98,30 +94,4 @@ resource "aws_lambda_permission" "api_gateway_invoke" {
   function_name = var.lambda_function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.statement_analysis_gw.execution_arn}/*/*"
-}
-
-# Widens CORS to include the Amplify app's domain once it's known. Can't be
-# done inline on aws_apigatewayv2_api because that would create a cycle:
-# this API's gateway_url feeds module.amplify's REACT_APP_API_URL env var,
-# so amplify.default_domain can't also feed back into this resource's creation.
-resource "null_resource" "add_amplify_cors_origin" {
-  triggers = {
-    api_id  = aws_apigatewayv2_api.statement_analysis_gw.id
-    origins = "https://${var.amplify_domain},${var.cors_allowed_origins}"
-  }
-
-  provisioner "local-exec" {
-    command = <<-EOT
-      aws apigatewayv2 update-api \
-        --api-id ${aws_apigatewayv2_api.statement_analysis_gw.id} \
-        --region ${data.aws_region.current.name} \
-        --cors-configuration '${jsonencode({
-    AllowOrigins     = split(",", "https://${var.amplify_domain},${var.cors_allowed_origins}")
-    AllowMethods     = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-    AllowHeaders     = ["Content-Type", "Authorization"]
-    AllowCredentials = true
-    MaxAge           = 300
-})}'
-    EOT
-  }
 }

@@ -8,11 +8,6 @@ variable "api_gateway_name" {
   default     = "statement-analysis-api"
 }
 variable "cors_allowed_origins" {
-  description = "Comma-separated list of allowed CORS origins known at API creation time (must not depend on the Amplify app's default_domain, or it forms a cycle with module.amplify)"
-  type        = string
-}
-
-variable "amplify_domain" {
-  description = "Amplify app's default_domain, added to CORS allow_origins out-of-band after creation to avoid a cycle with module.amplify (which needs this API's gateway_url)"
+  description = "Comma-separated list of allowed CORS origins"
   type        = string
 }

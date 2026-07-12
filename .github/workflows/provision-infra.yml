@@ -32,7 +32,8 @@ jobs:
         run: |
           terraform plan \
             -var="amplify_repository_url=${{ vars.AMPLIFY_REPOSITORY_URL }}" \
-            -var="amplify_github_access_token=${{ secrets.AMPLIFY_GITHUB_ACCESS_TOKEN }}"
+            -var="amplify_github_access_token=${{ secrets.AMPLIFY_GITHUB_ACCESS_TOKEN }}" \
+            -var="cors_allowed_origins=${{ vars.CORS_ALLOWED_ORIGINS }}"
 
   terraform-apply:
     name: Terraform Apply
@@ -61,4 +62,5 @@ jobs:
         run: |
           terraform apply -auto-approve \
             -var="amplify_repository_url=${{ vars.AMPLIFY_REPOSITORY_URL }}" \
-            -var="amplify_github_access_token=${{ secrets.AMPLIFY_GITHUB_ACCESS_TOKEN }}"
+            -var="amplify_github_access_token=${{ secrets.AMPLIFY_GITHUB_ACCESS_TOKEN }}" \
+            -var="cors_allowed_origins=${{ vars.CORS_ALLOWED_ORIGINS }}"
