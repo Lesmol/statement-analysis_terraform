@@ -1,3 +1,6 @@
 .project/
 .idea
 .terraform
+.claude
+CLAUDE.md
+*.json
