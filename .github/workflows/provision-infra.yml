@@ -34,8 +34,8 @@ jobs:
             -var="amplify_repository_url=${{ vars.AMPLIFY_REPOSITORY_URL }}" \
             -var="amplify_github_access_token=${{ secrets.AMPLIFY_GITHUB_ACCESS_TOKEN }}" \
             -var="cors_allowed_origins=${{ vars.CORS_ALLOWED_ORIGINS }}" \
-            -var="grafana_cloud_aws_account_id=${{ vars.GRAFANA_CLOUD_AWS_ACCOUNT_ID }}" \
-            -var="grafana_external_id=${{ vars.GRAFANA_EXTERNAL_ID }}"
+            -var="grafana_cloud_aws_account_id=${{ secrets.GRAFANA_CLOUD_AWS_ACCOUNT_ID }}" \
+            -var="grafana_external_id=${{ secrets.GRAFANA_EXTERNAL_ID }}"
 
   terraform-apply:
     name: Terraform Apply
@@ -66,5 +66,5 @@ jobs:
             -var="amplify_repository_url=${{ vars.AMPLIFY_REPOSITORY_URL }}" \
             -var="amplify_github_access_token=${{ secrets.AMPLIFY_GITHUB_ACCESS_TOKEN }}" \
             -var="cors_allowed_origins=${{ vars.CORS_ALLOWED_ORIGINS }}" \
-            -var="grafana_cloud_aws_account_id=${{ vars.GRAFANA_CLOUD_AWS_ACCOUNT_ID }}" \
-            -var="grafana_external_id=${{ vars.GRAFANA_EXTERNAL_ID }}"
+            -var="grafana_cloud_aws_account_id=${{ secrets.GRAFANA_CLOUD_AWS_ACCOUNT_ID }}" \
+            -var="grafana_external_id=${{ secrets.GRAFANA_EXTERNAL_ID }}"
