@@ -7,7 +7,7 @@ resource "aws_apigatewayv2_api" "statement_analysis_gw" {
   cors_configuration {
     allow_origins     = ["https://main.d163ce0nscsd1p.amplifyapp.com", "http://localhost:5173"]
     allow_methods     = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-    allow_headers     = ["Content-Type", "Authorization"]
+    allow_headers     = ["Content-Type", "Authorization", "correlation-id"]
     allow_credentials = true
     max_age           = 300
   }
