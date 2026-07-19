@@ -38,6 +38,7 @@ data "aws_iam_policy_document" "lambda_policy" {
       "cognito-idp:AdminInitiateAuth",
       "cognito-idp:AdminRespondToAuthChallenge",
       "cognito-idp:AdminGetUser",
+      "cognito-idp:AdminUpdateUserAttributes",
     ]
     resources = ["arn:aws:cognito-idp:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:userpool/${var.cognito_user_pool_id}"]
   }
