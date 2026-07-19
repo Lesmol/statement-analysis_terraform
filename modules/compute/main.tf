@@ -2,6 +2,9 @@ locals {
   aws_region = "eu-west-1"
 }
 
+data "aws_region" "current" {}
+data "aws_caller_identity" "current" {}
+
 data "aws_iam_policy_document" "lambda_assume_role" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -26,6 +29,17 @@ data "aws_iam_policy_document" "lambda_policy" {
   statement {
     actions   = ["textract:StartDocumentAnalysis", "textract:StartDocumentTextDetection"]
     resources = ["*"]
+  }
+
+  statement {
+    actions = [
+      "cognito-idp:AdminCreateUser",
+      "cognito-idp:AdminSetUserPassword",
+      "cognito-idp:AdminInitiateAuth",
+      "cognito-idp:AdminRespondToAuthChallenge",
+      "cognito-idp:AdminGetUser",
+    ]
+    resources = ["arn:aws:cognito-idp:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:userpool/${var.cognito_user_pool_id}"]
   }
 }
 
