@@ -5,7 +5,7 @@ resource "aws_apigatewayv2_api" "statement_analysis_gw" {
   protocol_type = "HTTP"
 
   cors_configuration {
-    allow_origins     = ["https://iritpjoyg7.execute-api.af-south-1.amazonaws.com","http://localhost:5173"]
+    allow_origins     = ["https://main.d163ce0nscsd1p.amplifyapp.com", "http://localhost:5173"]
     allow_methods     = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     allow_headers     = ["Content-Type", "Authorization"]
     allow_credentials = true
@@ -71,17 +71,6 @@ resource "aws_apigatewayv2_route" "statement_analysis_gw_route_proxy" {
   target             = "integrations/${aws_apigatewayv2_integration.statement_analysis_gw_integration.id}"
   authorization_type = "JWT"
   authorizer_id      = aws_apigatewayv2_authorizer.cognito.id
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-resource "aws_apigatewayv2_route" "statement_analysis_gw_route_options" {
-  api_id             = aws_apigatewayv2_api.statement_analysis_gw.id
-  route_key          = "OPTIONS /{proxy+}"
-  target             = "integrations/${aws_apigatewayv2_integration.statement_analysis_gw_integration.id}"
-  authorization_type = "NONE"
 
   lifecycle {
     create_before_destroy = true
